@@ -1,4 +1,4 @@
-package Grafos;
+package EDAT.Grafos;
 import lineales.dinamicas.Cola;
 import lineales.dinamicas.Lista;
 
