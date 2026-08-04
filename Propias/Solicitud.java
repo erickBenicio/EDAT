@@ -1,11 +1,11 @@
-package TPO.Propias;
+package EDAT.Propias;
 import java.util.Date;
 
 public class Solicitud {
     //Atributos
     private String postalOrigen;
     private String postalDestino;
-    private Date fechaSol;
+    private String fechaSol;
     private Cliente dni;
     private int m3;
     private int cantBultos;
@@ -13,7 +13,7 @@ public class Solicitud {
     private String domicilioEntrega;
     private boolean pagado;
 
-    public Solicitud(String cpO, String cpD, Date unaFecha, Cliente dni, int m3, int cantBul, String domRet, String domEnt, boolean pagado){
+    public Solicitud(String cpO, String cpD, String unaFecha, Cliente dni, int m3, int cantBul, String domRet, String domEnt, boolean pagado){
         this.postalOrigen= cpO;
         this.postalDestino= cpD;
         this.fechaSol= unaFecha;
@@ -36,12 +36,13 @@ public class Solicitud {
     public void setPostalDestino(String postalDestino) {
         this.postalDestino = postalDestino;
     }
-    public Date getFechaSol() {
+    public String getFechaSol() {
         return fechaSol;
     }
-    public void setFechaSol(Date fechaSol) {
+    public void setFechaSol(String fechaSol) {
         this.fechaSol = fechaSol;
     }
+    //CORRECTO QUE PUEDA SETEAR UNA CLAVE COMO DNI?
     public Cliente getDni() {
         return dni;
     }

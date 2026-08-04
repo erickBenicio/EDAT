@@ -1,13 +1,13 @@
-package Grafos;
+package EDAT.Grafos;
 
 public class NodoAdy{
     //Atributos
     private NodoVert vertice=null;
     private NodoAdy sigAdyacente=null;
-    private int etiqueta = 0;
+    private double etiqueta = 0;
  
     //Contructores
-    public NodoAdy(NodoVert vert,NodoAdy siguienteAdy,int etiqueta){
+    public NodoAdy(NodoVert vert,NodoAdy siguienteAdy,double etiqueta){
         this.vertice=vert;
         this.sigAdyacente=siguienteAdy;
         this.etiqueta = etiqueta;
@@ -22,7 +22,7 @@ public class NodoAdy{
         return this.sigAdyacente;
     }
 
-    public int getEtiqueta() {
+    public double getEtiqueta() {
         return etiqueta;
     }
     
@@ -35,7 +35,7 @@ public class NodoAdy{
         this.sigAdyacente=siguienteAdy;
     }
 
-    public void setEtiqueta(int etiqueta) {
+    public void setEtiqueta(double etiqueta) {
         this.etiqueta = etiqueta;
     }
     

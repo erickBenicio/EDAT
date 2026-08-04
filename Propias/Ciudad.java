@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TPO.Propias;
+package EDAT.Propias;
 import lineales.dinamicas.Lista;
 /**
  *
@@ -12,16 +12,16 @@ import lineales.dinamicas.Lista;
 public class Ciudad {
     
     
-    private Comparable codigoPostal;
+    private String codigoPostal;
     private String nombreCiudad;
     private String nombreProvincia;
-    private Lista solicitudViaje;
+    private HashMap <String, Lista <Solicitud>>;
 
-    public Ciudad (Comparable cp, String nc, String np){
+    public Ciudad (String cp, String nc, String np){
         this.codigoPostal= cp;
         this.nombreCiudad= nc;
         this.nombreProvincia= np;
-        this.solicitudViaje= new Lista();
+        //this.solicitudViaje= new Lista();
 
     }
 

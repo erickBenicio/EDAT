@@ -12,6 +12,6 @@ package EDAT.Propias;
 public class Camion {
     
     
-    private Object capacidad;
+    private double capacidad;
     private Boolean disponibilidad;
 }

@@ -1,15 +1,15 @@
-package TPO.Propias;
+package EDAT.Propias;
 import java.util.HashMap;
 
 public class Cliente {
-    private HashMap dni;
+    private String idCliente;
     private String nombre;
     private String apellido;
-    private int telefono;
+    private String telefono;
     private String mail;
 
-    public Cliente(HashMap dni, String n, String a, int t, String m){
-        this.dni= dni;
+    public Cliente(String idCliente, String n, String a, String t, String m){
+        this.idCliente= idCliente;
         this.nombre= n;
         this.apellido= a;
         this.telefono= t;
@@ -28,10 +28,10 @@ public class Cliente {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
     public String getMail() {

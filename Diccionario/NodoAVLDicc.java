@@ -1,4 +1,4 @@
-package Diccionario;
+package EDAT.Diccionario;
 
 public class NodoAVLDicc {
     //Atributos//
@@ -12,7 +12,7 @@ public class NodoAVLDicc {
         /*Contructor del nodo del Diccionario*/
         this.clave = clave;
         this.dato = dato;
-        this.derecho = hijoIzquierdo;
+        this.izquierdo = hijoIzquierdo;
         this.derecho = hijoDerecho;
         altura = 0;
     }

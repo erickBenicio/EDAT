@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Jerarquicas;
+package EDAT.Jerarquicas;
 
 import lineales.dinamicas.Lista;
 import lineales.dinamicas.Cola;

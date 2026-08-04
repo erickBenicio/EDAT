@@ -1,4 +1,4 @@
-package TPO.Conjuntistas;
+package EDAT.Conjuntistas;
 
 public class NodoAVL {
     // Atributos//

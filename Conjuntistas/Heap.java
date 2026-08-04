@@ -1,4 +1,5 @@
-package TPO.Conjuntistas;
+
+package EDAT.Conjuntistas;
 
 import conjuntistas.ArbolHeap;
 

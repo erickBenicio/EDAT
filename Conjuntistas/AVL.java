@@ -1,4 +1,4 @@
-package TPO.Conjuntistas;
+package EDAT.Conjuntistas;
 import lineales.dinamicas.Lista;
 
     public class AVL{

@@ -1,6 +1,6 @@
-package TPO.Propias;
+package EDAT.Propias;
 
-import TPO.Conjuntistas.AVL;
+import EDAT.Conjuntistas.AVL;
 import conjuntistas.TablaHash;
 import grafos.Grafo;
 

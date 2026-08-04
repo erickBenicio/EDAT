@@ -123,7 +123,7 @@ public class GrafoEtiquetado{
         return encontrado;
     }
 
-    public boolean insertarArco(Object origen, Object destino, int etiqueta) {
+    public boolean insertarArco(Object origen, Object destino, double etiqueta) {
         /*ACLARACION: no hice un metodo aparte para buscar ambos vertices como el ubicar vertice
         del insertar vertice porque nada mas podria retornarme uno de los vertices*/
         boolean exito = false;
@@ -403,7 +403,7 @@ public class GrafoEtiquetado{
         return masCorto;
     }
 
-    private Lista caminoMasCortoEtiquetasAux(NodoVert n, Object dest, Lista vis, Lista masCorto, int etiqVis) {
+    private Lista caminoMasCortoEtiquetasAux(NodoVert n, Object dest, Lista vis, Lista masCorto, double etiqVis) {
         /*ACLARACION: La lista masCorto guarda el camino por etiquetas mas corto en la posicion 1 y la suma
             de las etiquetas lo guarda en la posicion 2*/
          //Recupera la suma de etiquetas de la lista 

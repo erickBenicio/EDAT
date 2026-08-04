@@ -1,5 +1,5 @@
-package Diccionario;
-import Propias.Cliente;
+package EDAT.Diccionario;
+import EDAT.Propias.Cliente;
 import lineales.dinamicas.Lista;
 
 
