@@ -392,7 +392,7 @@ public class GrafoEtiquetado{
             /*Si ambos vertices existen busca el camino mas entre ambos*/
             Lista vis = new Lista();
             masCorto.insertar(vis, 1);
-            masCorto.insertar(0.0, 2); //Double
+            masCorto.insertar(0.0, 2);
             masCorto = caminoMasCortoEtiquetasAux(auxO, destino, vis, masCorto, 0.0);
         }
         if (!masCorto.esVacia()) //Guarda la lista de los vertices para retornarla
@@ -437,41 +437,6 @@ public class GrafoEtiquetado{
         return masCorto;
     }
     
-    /* MOMENTANEAMENTE COMENTADO 
-
-    public boolean existeCaminoConX(Object origen, Object destino, int x){
-        boolean existe = false;
-        //Verifica si ambos vertices existen
-        NodoVert auxO = encontrarDosVertices(origen, destino);
-        if (auxO != null) {
-            // Si ambos vertices existen busca el camino mas corto entre ambos
-            Lista masCorto = new Lista();
-            Lista vis = new Lista();
-            existe = existeCaminoConXAux(auxO, destino, vis,x);
-        }
-        return existe;
-    }
-    
-    private boolean existeCaminoConXAux(NodoVert n, Object dest, Lista vis, int x){
-        boolean exito = false;
-        if (n != null) {
-            if (n.getElem().equals(dest)) //si vertice n es el destino: HAY CAMINO! {
-                exito = true;
-            } else {
-                //Si no es el destino verifica  si hay camino entre n y destino
-                vis.insertar(n.getElem(), vis.longitud() + 1);
-                NodoAdy ady = n.getPrimerAdy();
-                while (!exito && ady != null) {
-                    if (vis.localizar(ady.getVertice().getElem()) < 0 && vis.longitud()< x) {
-                        exito = existeCaminoConXAux(ady.getVertice(), dest, vis,x);
-                    }
-                    ady = ady.getSigAdyacente();
-                }
-            }
-        }
-        return exito;
-    }
-    */
 
     //En vez de contar nodos, chequea la cantidad de km
     public boolean existeCaminoConX(Object origen, Object destino, double limiteKm){
