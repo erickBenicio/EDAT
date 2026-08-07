@@ -6,18 +6,18 @@ public class Solicitud {
     private String postalOrigen;
     private String postalDestino;
     private String fechaSol;
-    private Cliente dni;
+    private String idCliente;
     private int m3;
     private int cantBultos;
     private String domicilioRetiro;
     private String domicilioEntrega;
     private boolean pagado;
 
-    public Solicitud(String cpO, String cpD, String unaFecha, Cliente dni, int m3, int cantBul, String domRet, String domEnt, boolean pagado){
+    public Solicitud(String cpO, String cpD, String unaFecha, String idCliente, int m3, int cantBul, String domRet, String domEnt, boolean pagado){
         this.postalOrigen= cpO;
         this.postalDestino= cpD;
         this.fechaSol= unaFecha;
-        this.dni= dni;
+        this.idCliente= idCliente;
         this.m3= m3;
         this.cantBultos= cantBul;
         this.domicilioRetiro= domRet;
@@ -43,11 +43,11 @@ public class Solicitud {
         this.fechaSol = fechaSol;
     }
     //CORRECTO QUE PUEDA SETEAR UNA CLAVE COMO DNI?
-    public Cliente getDni() {
-        return dni;
+    public String getIdCliente() {
+        return idCliente;
     }
-    public void setDni(Cliente dni) {
-        this.dni = dni;
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
     public int getM3() {
         return m3;
@@ -79,7 +79,10 @@ public class Solicitud {
     public void setPago(boolean pago) {
         this.pagado = pago;
     }
-    
+    @Override
+    public String toString() {
+        return "Viaje a " + postalDestino + " | Cliente: " + idCliente + " | Volumen: " + m3 + " m3";
+    }
 
     
 }

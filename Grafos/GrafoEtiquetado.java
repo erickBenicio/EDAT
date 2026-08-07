@@ -392,8 +392,8 @@ public class GrafoEtiquetado{
             /*Si ambos vertices existen busca el camino mas entre ambos*/
             Lista vis = new Lista();
             masCorto.insertar(vis, 1);
-            masCorto.insertar(0, 2);
-            masCorto = caminoMasCortoEtiquetasAux(auxO, destino, vis, masCorto, 0);
+            masCorto.insertar(0.0, 2); //Double
+            masCorto = caminoMasCortoEtiquetasAux(auxO, destino, vis, masCorto, 0.0);
         }
         if (!masCorto.esVacia()) //Guarda la lista de los vertices para retornarla
         {
@@ -407,7 +407,7 @@ public class GrafoEtiquetado{
         /*ACLARACION: La lista masCorto guarda el camino por etiquetas mas corto en la posicion 1 y la suma
             de las etiquetas lo guarda en la posicion 2*/
          //Recupera la suma de etiquetas de la lista 
-         int i = (int) masCorto.recuperar(2);
+         double i = (double) masCorto.recuperar(2);
         if (n != null) {
             //Verifica que el origen es el destino
             if (n.getElem().equals(dest)) {
@@ -425,7 +425,7 @@ public class GrafoEtiquetado{
                 NodoAdy ady = n.getPrimerAdy();
                 while (ady != null) {
                     etiqVis = etiqVis + ady.getEtiqueta();
-                    if (vis.localizar(ady.getVertice().getElem()) < 0 && ( i == 0 || i > etiqVis)) {
+                    if (vis.localizar(ady.getVertice().getElem()) < 0 && ( i == 0.0 || i > etiqVis)) {
                         masCorto = caminoMasCortoEtiquetasAux(ady.getVertice(), dest, vis, masCorto, etiqVis);
                         vis.eliminar(vis.longitud());
                         etiqVis = etiqVis - ady.getEtiqueta();
@@ -437,12 +437,14 @@ public class GrafoEtiquetado{
         return masCorto;
     }
     
+    /* MOMENTANEAMENTE COMENTADO 
+
     public boolean existeCaminoConX(Object origen, Object destino, int x){
         boolean existe = false;
-        /*Verifica si ambos vertices existen*/
+        //Verifica si ambos vertices existen
         NodoVert auxO = encontrarDosVertices(origen, destino);
         if (auxO != null) {
-            /*Si ambos vertices existen busca el camino mas corto entre ambos*/
+            // Si ambos vertices existen busca el camino mas corto entre ambos
             Lista masCorto = new Lista();
             Lista vis = new Lista();
             existe = existeCaminoConXAux(auxO, destino, vis,x);
@@ -453,10 +455,10 @@ public class GrafoEtiquetado{
     private boolean existeCaminoConXAux(NodoVert n, Object dest, Lista vis, int x){
         boolean exito = false;
         if (n != null) {
-            if (n.getElem().equals(dest)) /*si vertice n es el destino: HAY CAMINO!*/ {
+            if (n.getElem().equals(dest)) //si vertice n es el destino: HAY CAMINO! {
                 exito = true;
             } else {
-                /*Si no es el destino verifica  si hay camino entre n y destino*/
+                //Si no es el destino verifica  si hay camino entre n y destino
                 vis.insertar(n.getElem(), vis.longitud() + 1);
                 NodoAdy ady = n.getPrimerAdy();
                 while (!exito && ady != null) {
@@ -465,6 +467,41 @@ public class GrafoEtiquetado{
                     }
                     ady = ady.getSigAdyacente();
                 }
+            }
+        }
+        return exito;
+    }
+    */
+
+    //En vez de contar nodos, chequea la cantidad de km
+    public boolean existeCaminoConX(Object origen, Object destino, double limiteKm){
+        boolean existe = false;
+        NodoVert auxO = encontrarDosVertices(origen, destino);
+        if (auxO != null) {
+            Lista vis = new Lista();
+            existe = existeCaminoConXAux(auxO, destino, vis, limiteKm, 0.0);
+        }
+        return existe;
+    }
+    
+    private boolean existeCaminoConXAux(NodoVert n, Object dest, Lista vis, double limiteKm, double kmRecorridos){
+        boolean exito = false;
+        if (n != null) {
+            if (n.getElem().equals(dest)) {
+                exito = true;
+            } else {
+                vis.insertar(n.getElem(), vis.longitud() + 1);
+                NodoAdy ady = n.getPrimerAdy();
+                while (!exito && ady != null) {
+                    double nuevoKm = kmRecorridos + ady.getEtiqueta(); //esta bien crearlo c/ vez?
+                    // Solo visita si no lo visitó antes Y SI los kilómetros acumulados no superan el límite X
+                    if (vis.localizar(ady.getVertice().getElem()) < 0 && nuevoKm <= limiteKm) {
+                        exito = existeCaminoConXAux(ady.getVertice(), dest, vis, limiteKm, nuevoKm);
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+                //Si no hay éxito, libero el nodo para poder explorar otras rutas
+                vis.eliminar(vis.longitud()); 
             }
         }
         return exito;

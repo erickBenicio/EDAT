@@ -1,5 +1,5 @@
 package EDAT.Propias;
-import java.util.HashMap;
+
 
 public class Cliente {
     private String idCliente;
@@ -14,6 +14,12 @@ public class Cliente {
         this.apellido= a;
         this.telefono= t;
         this.mail= m;
+    }
+    public String getIdCliente() { 
+        return idCliente; 
+    }
+    public void setIdCliente(String idCliente) { 
+        this.idCliente = idCliente; 
     }
 
     public String getNombre() {
@@ -41,4 +47,8 @@ public class Cliente {
         this.mail = mail;
     }
     
+    @Override
+    public String toString() {
+        return "Cliente [" + idCliente + "] " + apellido + ", " + nombre + " - Tel: " + telefono;
+    }
 }

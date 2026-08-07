@@ -25,7 +25,7 @@ public class MudanzasCompartidas {
         MudanzasCompartidas sistema = new MudanzasCompartidas();
         sistema.iniciarMenu();
     }
-    
+
     public void iniciarMenu() {
         String opcion = "";
         do {
@@ -47,8 +47,6 @@ public class MudanzasCompartidas {
 
             switch (opcion) {
                 case "1":
-                    // Implementar en ETAPA 5
-                    System.out.println("Modulo en construccion...");
                     break;
                 case "2":
                     break;
@@ -79,10 +77,15 @@ public class MudanzasCompartidas {
     }
 
 
-    public boolean cargarPedido(Solicitud nuevaSol){
-        boolean exito= false;
-        String cpOrigen= nuevaSol.getPostalOrigen();
-
-        Ciudad ciudadOrigen= ciudades
+    public boolean cargarPedidoMenu(Solicitud nuevaSol) {
+        boolean exito = false;
+        String cpOrigen = nuevaSol.getPostalOrigen();
+        
+        Ciudad ciudadOrigen = (Ciudad) ciudades.obtenerDato(cpOrigen);
+        if(ciudadOrigen != null) {
+            ciudadOrigen.agregarSolicitud(nuevaSol);
+            exito = true;
+        }
+        return exito;
     }
 }
