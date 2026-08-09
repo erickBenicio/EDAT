@@ -72,6 +72,7 @@ public class MudanzasCompartidas {
                     consultaCiudades();
                     break;
                 case "8":
+                    consultasViajes();
                     break;
                 case "9":
                     break;
@@ -750,6 +751,115 @@ public class MudanzasCompartidas {
         } while (!subOpcion.equals("R"));
     }
 
-    
+    //Consulta sobre viajes: Dada una ciudad A y otra B
+    public void consultasViajes() {
+        System.out.println("\n--- CONSULTAS SOBRE VIAJES ---");
+        System.out.print("Ingrese el CP de la ciudad ORIGEN (A): ");
+        String cpA = teclado.nextLine().trim();
+        System.out.print("Ingrese el CP de la ciudad DESTINO (B): ");
+        String cpB = teclado.nextLine().trim();
+
+        Ciudad ciudadA = (Ciudad) ciudades.obtenerDato(cpA);
+        Ciudad ciudadB = (Ciudad) ciudades.obtenerDato(cpB);
+
+        if (ciudadA == null || ciudadB == null) {
+            System.out.println("ERROR: Una o ambas ciudades no están dadas de alta en el sistema.");
+            return; // Corta la ejecución tempranamente
+        }
+
+        String subOpcion = "";
+        do {
+            System.out.println("\nRuta: " + ciudadA.getNombreCiudad() + " -> " + ciudadB.getNombreCiudad());
+            System.out.println("1. Camino que pase por MENOS ciudades (escalas)");
+            System.out.println("2. Camino de MENOR distancia (kilómetros)");
+            System.out.println("3. Obtener todos los caminos que pasen por una ciudad C");
+            System.out.println("4. Verificar si es posible llegar en un máximo de X kilómetros");
+            System.out.println("R. Regresar al Menú Principal");
+            System.out.print("Ingrese una opción: ");
+            subOpcion = teclado.nextLine().toUpperCase();
+
+            switch (subOpcion) {
+                case "1":
+                    lineales.dinamicas.Lista caminoMenosCiudades = mapaRutas.caminoMasCorto(cpA, cpB);
+                    if (caminoMenosCiudades.esVacia()) {
+                        System.out.println("No existe ningún camino posible entre estas dos ciudades.");
+                    } else {
+                        System.out.println("Camino con menos ciudades encontrado:");
+                        toStringCamino(caminoMenosCiudades);
+                        System.out.println("Total de ciudades visitadas: " + caminoMenosCiudades.longitud());
+                    }
+                    break;
+
+                case "2":
+                    lineales.dinamicas.Lista caminoMenorDistancia = mapaRutas.caminoMasCortoEtiquetas(cpA, cpB);
+                    if (caminoMenorDistancia.esVacia()) {
+                        System.out.println("No existe ningún camino posible entre estas dos ciudades.");
+                    } else {
+                        System.out.println("Camino más corto en kilómetros encontrado:");
+                        toStringCamino(caminoMenorDistancia);
+                    }
+                    break;
+
+                case "3":
+                    System.out.print("Ingrese el CP de la ciudad intermedia (C): ");
+                    String cpC = teclado.nextLine().trim();
+                    Ciudad ciudadC = (Ciudad) ciudades.obtenerDato(cpC);
+                    
+                    if (ciudadC == null) {
+                        System.out.println("ERROR: La ciudad intermedia C no existe en el sistema.");
+                    } else if (cpC.equals(cpA) || cpC.equals(cpB)) {
+                        System.out.println("ERROR: La ciudad intermedia no puede ser igual al origen o al destino.");
+                    } else {
+                        lineales.dinamicas.Lista todosLosCaminos = mapaRutas.todosCaminosPasandoPorC(cpA, cpB, cpC);
+                        if (todosLosCaminos.esVacia()) {
+                            System.out.println("No se encontró ningún camino de " + cpA + " a " + cpB + " que pase obligatoriamente por " + cpC + ".");
+                        } else {
+                            System.out.println("Se encontraron " + todosLosCaminos.longitud() + " caminos posibles:");
+                            for (int i = 1; i <= todosLosCaminos.longitud(); i++) {
+                                System.out.print("Opción " + i + ": ");
+                                toStringCamino((lineales.dinamicas.Lista) todosLosCaminos.recuperar(i));
+                            }
+                        }
+                    }
+                    break;
+
+                case "4":
+                    try {
+                        System.out.print("Ingrese el límite máximo de kilómetros (X): ");
+                        double limiteKm = Double.parseDouble(teclado.nextLine().trim());
+                        
+                        boolean esPosible = mapaRutas.existeCaminoConX(cpA, cpB, limiteKm);
+                        if (esPosible) {
+                            System.out.println("SÍ, es posible llegar de " + ciudadA.getNombreCiudad() + " a " + ciudadB.getNombreCiudad() + " en " + limiteKm + " km o menos.");
+                        } else {
+                            System.out.println("NO, no existe ningún camino que cumpla con esa restricción de kilometraje.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR: Formato numérico inválido.");
+                    }
+                    break;
+
+                case "R":
+                    System.out.println("Regresando...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+        } while (!subOpcion.equals("R"));
+    }
+
+    // Método auxiliar para imprimir las listas de CPs de forma legible
+    private void toStringCamino(lineales.dinamicas.Lista camino) {
+        String textoCamino = "";
+        for (int i = 1; i <= camino.longitud(); i++) {
+            textoCamino += (String) camino.recuperar(i);
+            if (i < camino.longitud()) {
+                textoCamino += " -> ";
+            }
+        }
+        System.out.println(textoCamino);
+    }
 
 }

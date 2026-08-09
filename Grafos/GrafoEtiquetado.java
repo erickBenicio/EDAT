@@ -538,7 +538,45 @@ public class GrafoEtiquetado{
         return masCorto;
     }
     
-    
+    public Lista todosCaminosPasandoPorC(Object origen, Object destino, Object medio) {
+        //Metodo para corroborar el inciso C del 8
+        Lista todos = new Lista();
+        NodoVert auxO = encontrarTresVertices(origen, destino, medio); 
+        if (auxO != null) {
+            Lista vis = new Lista();
+            todosCaminosPasandoPorCAux(auxO, destino, medio, false, vis, todos);
+        }
+        return todos;
+    }
+
+    private void todosCaminosPasandoPorCAux(NodoVert n, Object dest, Object medio, boolean pasoMedio, Lista vis, Lista todos) {
+        
+        if (n != null) {
+            vis.insertar(n.getElem(), vis.longitud() + 1);
+            
+            // Si pasa por C, modificamos la flag
+            if (n.getElem().equals(medio)) {
+                pasoMedio = true;
+            }
+
+            if (n.getElem().equals(dest)) {
+                // Si llega y pasa por el medio, guarda ese camino
+                if (pasoMedio) {
+                    todos.insertar(vis.clone(), todos.longitud() + 1);
+                }
+            } else {
+                NodoAdy ady = n.getPrimerAdy();
+                while (ady != null) {
+                    // Si no lo visita, avanza
+                    if (vis.localizar(ady.getVertice().getElem()) < 0) {
+                        todosCaminosPasandoPorCAux(ady.getVertice(), dest, medio, pasoMedio, vis, todos);
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+            }
+            vis.eliminar(vis.longitud()); 
+        }
+    }
 
     public void vaciar() {
         this.inicio = null;
