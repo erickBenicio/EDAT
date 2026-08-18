@@ -1,5 +1,8 @@
 package EDAT.Propias;
-import java.util.Date;
+/**
+ *
+ * @author erick
+ */
 
 public class Solicitud {
     //Atributos

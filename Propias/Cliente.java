@@ -1,5 +1,8 @@
 package EDAT.Propias;
-
+/**
+ *
+ * @author erick
+ */
 
 public class Cliente {
     private String idCliente;

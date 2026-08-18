@@ -1,13 +1,15 @@
 package EDAT.Diccionario;
-import EDAT.Propias.Cliente;
 import lineales.dinamicas.Lista;
-
+/**
+ *
+ * @author erick
+ */
 
 public class DiccionarioAVL {
-    //Atributo//
+    
     private NodoAVLDicc raiz;
     
-    //Constructor//
+    //Constructor
     public DiccionarioAVL(){
         raiz = null;
     }
@@ -30,7 +32,7 @@ public class DiccionarioAVL {
             exito=false;
         }else{
             if(clave.compareTo(n.getClave())< 0){
-                /*Elemento es menor que n.getElem()
+                /*Elem es menor que n.getElem()
                 Si tiene HI baja a la izquierda, sino agrega elemento*/
                 if(n.getIzquierdo()!=null){
                     exito=insertarAux(n.getIzquierdo(),clave,dato,n);
@@ -38,7 +40,7 @@ public class DiccionarioAVL {
                     n.setIzquierdo(new NodoAVLDicc(clave,dato,null,null));
                 }
             }else{
-                /*Elemento es mayor que n.getElem()
+                /*Elem es mayor que n.getElem()
                 si tiene HD baja a la derecha, sino agrega elemento*/
                 if(n.getDerecho()!=null){
                     exito=insertarAux(n.getDerecho(),clave,dato,n);
@@ -100,7 +102,7 @@ public class DiccionarioAVL {
             /*Si el balance es -2, el arbol esta inclinado hacia la derecha*/
             /*Calcula balance del hijo Derecho*/
             int balHijoDer = -1;
-            if (nodo.getIzquierdo() != null) {
+            if (nodo.getDerecho() != null) {
                 balHijoDer = calcularBalance(nodo.getDerecho());
             }
             if (balHijoDer <= 0) {
@@ -125,9 +127,9 @@ public class DiccionarioAVL {
         r.setDerecho(temp);
         /*Despues de rotar, recalculo las alturas*/
         r.recalcularAltura();
-        if (temp != null) {
+        /*if (temp != null) {
             temp.recalcularAltura();
-        }
+        }*/
         h.recalcularAltura();
         /*Retorna la nueva raiz del subArbol*/
         return h;

@@ -1,7 +1,10 @@
 package EDAT.Grafos;
 import lineales.dinamicas.Cola;
 import lineales.dinamicas.Lista;
-
+/**
+ *
+ * @author erick
+ */
 
 public class GrafoEtiquetado{
 
@@ -670,96 +673,6 @@ public class GrafoEtiquetado{
     }
     
     
-    //PRACTICANDO PARA EL FINAL
     
-    /* Recibe dos vertices y dos cantidades numericas y devuelve el primer camino sin ciclos,
-    de origen a destino, con peso > pesoMin y cantidad de vertices < longMax*/
-    
-    public Lista primerCaminoMenorPesoLong(Object origen,Object destino,int pesoMin, int longMax){
-        Lista list = new Lista();
-        if(inicio!=null){
-            NodoVert  ori = encontrarOrigen(origen);
-            if(ori!=null){
-                list = primerCaminoMenorPesoLongAux(ori,destino,pesoMin,longMax,new Lista(),new Lista(),0);
-            }
-        }
-        return list;
-    }
-    
-    private NodoVert encontrarOrigen(Object origen){
-        NodoVert auxO = null;
-        NodoVert aux = this.inicio;
-        while(aux !=null && auxO==null){
-            if(aux.getElem().equals(origen)){
-                auxO = aux;
-            }
-            aux = aux.getSigVert();
-        }
-        return auxO;
-    }
-   
-   private Lista primerCaminoMenorPesoLongAux(NodoVert n,Object destino,int pesoMin,int longMax, Lista vis,Lista caminoMasLargo, int peso){
-       if(n!=null){
-         vis.insertar(n.getElem(),vis.longitud()+1);
-         if(n.getElem().equals(destino)){
-            if(peso > pesoMin){
-                caminoMasLargo = vis.clone();
-            }
-         }else{
-             if(vis.longitud()<longMax){
-                 NodoAdy aux = n.getPrimerAdy();
-                 while(aux!=null && caminoMasLargo.esVacia()){
-                     if(vis.localizar(aux.getVertice().getElem())<0){
-                        peso +=aux.getEtiqueta();
-                        caminoMasLargo = primerCaminoMenorPesoLongAux(aux.getVertice(),destino,pesoMin,longMax,vis,caminoMasLargo,peso);
-                     }
-                     aux = aux.getSigAdyacente();
-                 }
-             }
-         }
-       }
-       return caminoMasLargo;
-   } 
-
-   
-   
-   /*Recibe dos vértices y dos cantidades numéricas y devuelve el primer
-camino que encuentra que sale del vértice origen y llega al vértice destino y que tenga peso (suma
-de los valores de los arcos que los unen) mayor o igual a pesoMin y menor o igual a pesoMax.
-Suponga que los dos vértices pasados por parámetro son distintos.*/
-   
-   public Lista caminoDePesoEntre(Object origen, Object destino, int pesoMin, int pesoMax){
-       Lista list = new Lista();
-       if(inicio != null){
-           NodoVert ori = encontrarOrigen(origen);
-           if(ori!=null){
-               list = caminoDePesoEntreAux(ori,destino,pesoMin,pesoMax,new Lista(),0,new Lista());
-           }
-       }
-       return list;
-   }
-   
-   private Lista caminoDePesoEntreAux(NodoVert n,Object destino,int pesoMin,int pesoMax,Lista vis, int peso,Lista caminoEncontrado){
-       if(n!=null){
-           vis.insertar(n.getElem(), vis.longitud()+1);
-           if(n.getElem().equals(destino)){
-               if(peso >= pesoMin && peso <= pesoMax){
-                   caminoEncontrado = vis.clone();
-               }
-           }else{
-               NodoAdy aux = n.getPrimerAdy();
-               while(aux!=null && caminoEncontrado.esVacia()){
-                   if(vis.localizar(aux.getVertice().getElem())<0){
-                       peso += aux.getEtiqueta();
-                       caminoEncontrado = caminoDePesoEntreAux(aux.getVertice(),destino,pesoMin,pesoMax,vis,peso,caminoEncontrado);
-                       vis.eliminar(vis.longitud());
-                       aux = aux.getSigAdyacente();
-                   }
-               }
-               
-           }
-       }
-       return caminoEncontrado;
-   }
 
 }

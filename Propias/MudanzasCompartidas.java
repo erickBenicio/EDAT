@@ -1,5 +1,4 @@
 package EDAT.Propias;
-
 import EDAT.Diccionario.DiccionarioAVL;
 import EDAT.Grafos.GrafoEtiquetado;
 import java.util.HashMap;
@@ -8,6 +7,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+/**
+ *
+ * @author erick
+ */
 
 public class MudanzasCompartidas {
     //Atributos
@@ -42,8 +45,8 @@ public class MudanzasCompartidas {
             System.out.println("6. Consulta sobre clientes");
             System.out.println("7. Consultas sobre ciudades");
             System.out.println("8. Consultas sobre viajes");
-            System.out.println("9. Verificar viaje (Espacio en camion)");
-            System.out.println("0. Mostrar sistema (Auditoría de estructuras)");
+            System.out.println("9. Verificar viaje");
+            System.out.println("0. Mostrar sistema");
             System.out.println("q. Salir");
             System.out.print("Ingrese una opcion: ");
             
@@ -51,7 +54,7 @@ public class MudanzasCompartidas {
 
             switch (opcion) {
                 case "1":
-                    cargarDatosIniciales("lote_inicial.txt");
+                    cargarDatosIniciales("EDAT/Propias/carga_inicial_envios_AVL.txt");
                     break;
                 case "2":
                     abmCiudades();
@@ -75,8 +78,12 @@ public class MudanzasCompartidas {
                     consultasViajes();
                     break;
                 case "9":
+                    verificarViaje();
                     break;
                 case "0":
+                    System.out.println(ciudades.toString());
+                    System.out.println();
+                    System.out.println(mapaRutas.toString());
                     break;
                 case "q":
                     System.out.println("Saliendo del sistema...");
@@ -111,11 +118,11 @@ public class MudanzasCompartidas {
     }
 
     // --- MÓDULO DE CARGA INICIAL ---
-    public void cargarDatosIniciales(String rutaArchivo) {
-        System.out.println("Iniciando carga de datos desde: " + rutaArchivo);
+    public void cargarDatosIniciales(String carga_inicial_envios) {
+        System.out.println("Iniciando carga de datos desde: " + carga_inicial_envios);
         escribirLog("--- INICIO DE EJECUCION DEL SISTEMA ---");
         
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(carga_inicial_envios))) {
             String linea;
             int contCiudades = 0, contClientes = 0, contRutas = 0, contSolicitudes = 0;
 
@@ -208,7 +215,7 @@ public class MudanzasCompartidas {
         }
     }
 
-    //ABM de Ciudades
+    //2 ABM de Ciudades
     public void abmCiudades() {
         String subOpcion = "";
         do {
@@ -235,7 +242,7 @@ public class MudanzasCompartidas {
                         
                         Ciudad nueva = new Ciudad(cpAlta, nombre, provincia);
                         ciudades.insertar(cpAlta, nueva);
-                        mapaRutas.insertarVertice(cpAlta); // Importante: Sincronizar con el Grafo
+                        mapaRutas.insertarVertice(cpAlta);
                         
                         System.out.println("Ciudad registrada exitosamente.");
                         escribirLog("ALTA CIUDAD: Se creó la ciudad " + nombre + " (" + cpAlta + ")");
@@ -249,7 +256,7 @@ public class MudanzasCompartidas {
                     if (!ciudades.existeClave(cpBaja)) {
                         System.out.println("ERROR: La ciudad no existe.");
                     } else {
-                        // Eliminar de ambas estructuras
+                        // Elimina de ambas estructuras
                         ciudades.eliminar(cpBaja);
                         mapaRutas.eliminarVertice(cpBaja); // Esto también desconecta las rutas asociadas
                         
@@ -296,7 +303,7 @@ public class MudanzasCompartidas {
             }
         } while (!subOpcion.equals("R"));
     }
-    //ABM de rutas
+    //3 ABM de rutas
     public void abmRutas() {
         String subOpcion = "";
         do {
@@ -361,7 +368,7 @@ public class MudanzasCompartidas {
                             System.out.print("Ingrese la nueva distancia en kilómetros: ");
                             double nuevaDistancia = Double.parseDouble(teclado.nextLine().trim());
                             
-                            // Modificar en el TDA estándar significa eliminar el enlace viejo y crear uno nuevo
+                            //elimina el enlace viejo y crea uno nuevo
                             mapaRutas.eliminarArco(origenMod, destinoMod);
                             mapaRutas.insertarArco(origenMod, destinoMod, nuevaDistancia);
                             
@@ -386,7 +393,7 @@ public class MudanzasCompartidas {
         } while (!subOpcion.equals("R"));
     }
 
-    //ABM de Clientes
+    //4 ABM de Clientes
     public void abmClientes() {
         String subOpcion = "";
         do {
@@ -489,7 +496,7 @@ public class MudanzasCompartidas {
         } while (!subOpcion.equals("R"));
     }
 
-    //ABM de pedidos
+    //5 ABM de pedidos
     public void abmPedidos() {
         String subOpcion = "";
         do {
@@ -654,7 +661,7 @@ public class MudanzasCompartidas {
         } while (!subOpcion.equals("R"));
     }
 
-    //Consulta sobre clientes
+    //6 Consulta sobre clientes
     public void consultaCliente() {
         System.out.println("\n--- CONSULTA DE CLIENTE ---");
         System.out.print("Ingrese el Tipo de Documento (Ej. DNI, PAS): ");
@@ -679,7 +686,7 @@ public class MudanzasCompartidas {
         }
     }
 
-    //Consulta ciudades y prefijos
+    //7 Consulta ciudades y prefijos
     public void consultaCiudades() {
         String subOpcion = "";
         do {
@@ -751,7 +758,7 @@ public class MudanzasCompartidas {
         } while (!subOpcion.equals("R"));
     }
 
-    //Consulta sobre viajes: Dada una ciudad A y otra B
+    //8 Consulta sobre viajes: Dada una ciudad A y otra B
     public void consultasViajes() {
         System.out.println("\n--- CONSULTAS SOBRE VIAJES ---");
         System.out.print("Ingrese el CP de la ciudad ORIGEN (A): ");
@@ -771,7 +778,7 @@ public class MudanzasCompartidas {
         do {
             System.out.println("\nRuta: " + ciudadA.getNombreCiudad() + " -> " + ciudadB.getNombreCiudad());
             System.out.println("1. Camino que pase por MENOS ciudades (escalas)");
-            System.out.println("2. Camino de MENOR distancia (kilómetros)");
+            System.out.println("2. Camino de MENOR distancia en kilómetros");
             System.out.println("3. Obtener todos los caminos que pasen por una ciudad C");
             System.out.println("4. Verificar si es posible llegar en un máximo de X kilómetros");
             System.out.println("R. Regresar al Menú Principal");
@@ -845,6 +852,189 @@ public class MudanzasCompartidas {
 
                 default:
                     System.out.println("Opción inválida.");
+                    break;
+            }
+        } while (!subOpcion.equals("R"));
+    }
+    //9 Verificar viaje:
+    public void verificarViaje() {
+        String subOpcion = "";
+        do {
+            System.out.println("\n--- VERIFICAR VIAJE ---");
+            System.out.println("1. Calcular espacio total necesario entre Ciudad A y B");
+            System.out.println("2. Verificar si sobra espacio en el camión y ver un listado de posibles\r\n" + //
+                                    "solicitudes a ciudades intermedias");
+            System.out.println("3. Verificar si una ruta es un 'Camino Perfecto'");
+            System.out.println("R. Regresar al Menú Principal");
+            System.out.print("Ingrese una opción: ");
+            subOpcion = teclado.nextLine().toUpperCase();
+
+            switch (subOpcion) {
+                case "1": // Cálculo de espacio básico
+                    System.out.print("Ingrese CP ORIGEN: ");
+                    String cpOA = teclado.nextLine().trim();
+                    System.out.print("Ingrese CP DESTINO: ");
+                    String cpDB = teclado.nextLine().trim();
+                    
+                    Ciudad cOrigen = (Ciudad) ciudades.obtenerDato(cpOA);
+                    if (cOrigen != null) {
+                        lineales.dinamicas.Lista ped = cOrigen.getSolicitudesHacia(cpDB);
+                        if (ped.esVacia()) {
+                            System.out.println("No hay pedidos registrados de " + cpOA + " a " + cpDB + ".");
+                        } else {
+                            int totalM3 = 0;
+                            System.out.println("--- Pedidos Encontrados ---");
+                            for (int i = 1; i <= ped.longitud(); i++) {
+                                Solicitud s = (Solicitud) ped.recuperar(i);
+                                System.out.println("- " + s.toString());
+                                totalM3 += s.getM3();
+                            }
+                            System.out.println("---------------------------");
+                            System.out.println("ESPACIO TOTAL NECESARIO: " + totalM3 + " m3");
+                        }
+                    } else {
+                        System.out.println("ERROR: Ciudad origen no existe.");
+                    }
+                    break;
+
+                case "2": // Aprovechamiento de espacio
+                    System.out.print("Ingrese CP ORIGEN: ");
+                    String oriOpt = teclado.nextLine().trim();
+                    System.out.print("Ingrese CP DESTINO: ");
+                    String destOpt = teclado.nextLine().trim();
+                    
+                    if (mapaRutas.existeVertice(oriOpt) && mapaRutas.existeVertice(destOpt)) {
+                        System.out.print("Ingrese espacio LIBRE en el camión (m3): ");
+                        try {
+                            int espacioLibre = Integer.parseInt(teclado.nextLine().trim());
+                            lineales.dinamicas.Lista rutaCorta = mapaRutas.caminoMasCortoEtiquetas(oriOpt, destOpt);
+                            
+                            if (rutaCorta.esVacia()) {
+                                System.out.println("No hay ruta posible hacia el destino.");
+                            } else {
+                                System.out.println("\n--- Sugerencias para aprovechar " + espacioLibre + " m3 libres ---");
+                                System.out.print("Ruta del camión: ");
+                                toStringCamino(rutaCorta);
+                                
+                                boolean sugerencias = false;
+                                // Itera las ciudades de la ruta (excepto el destino final)
+                                for (int i = 1; i < rutaCorta.longitud(); i++) {
+                                    String cpActual = (String) rutaCorta.recuperar(i);
+                                    Ciudad cAct = (Ciudad) ciudades.obtenerDato(cpActual);
+                                    
+                                    // Verifica si hay envíos desde esta ciudad hacia las ciudades que siguen en la ruta
+                                    for (int j = i + 1; j <= rutaCorta.longitud(); j++) {
+                                        String cpAdelante = (String) rutaCorta.recuperar(j);
+                                        lineales.dinamicas.Lista pedAdelante = cAct.getSolicitudesHacia(cpAdelante);
+                                        
+                                        for (int k = 1; k <= pedAdelante.longitud(); k++) {
+                                            Solicitud s = (Solicitud) pedAdelante.recuperar(k);
+                                            if (s.getM3() <= espacioLibre) {
+                                                System.out.println("SUGERENCIA: Levantar en " + cpActual + " pedido hacia " + cpAdelante + " (Volumen: " + s.getM3() + " m3)");
+                                                sugerencias = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (!sugerencias) System.out.println("No hay pedidos que quepan en el espacio libre a lo largo de esta ruta.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("ERROR: Formato de volumen inválido.");
+                        }
+                    } else {
+                        System.out.println("ERROR: Las ciudades indicadas no existen.");
+                    }
+                    break;
+
+                case "3": // Camino Perfecto
+                    System.out.println("Ingrese la lista de ciudades del trayecto separadas por comas (Ej: 5000,8324,8300):");
+                    String entrada = teclado.nextLine().trim();
+                    String[] camino = entrada.split(",");
+                    
+                    if (camino.length < 2) {
+                        System.out.println("ERROR: Un camino debe tener al menos 2 ciudades.");
+                        break;
+                    }
+                    
+                    System.out.print("Ingrese la capacidad MAXIMA del camión (m3): ");
+                    try {
+                        int capacidad = Integer.parseInt(teclado.nextLine().trim());
+                        
+                        // Valida la existencia de las aristas en el grafo
+                        boolean rutaFisicaExiste = true;
+                        for (int i = 0; i < camino.length - 1; i++) {
+                            if (!mapaRutas.existeArco(camino[i].trim(), camino[i+1].trim())) {
+                                rutaFisicaExiste = false;
+                                break;
+                            }
+                        }
+                        
+                        if (!rutaFisicaExiste) {
+                            System.out.println("NO ES PERFECTO: El camino indicado no existe físicamente en el mapa de rutas.");
+                            break;
+                        }
+                        
+                        // Validar la carga logística (Camino Perfecto)
+                        boolean esPerfecto = true;
+                        int cargaActual = 0;
+                        
+                        // Itera cada tramo
+                        for (int i = 0; i < camino.length - 1; i++) {
+                            String cActual = camino[i].trim();
+                            Ciudad ciudadLogica = (Ciudad) ciudades.obtenerDato(cActual);
+                            
+                            // Primero, simula que llega a la ciudad y descarga los pedidos correspondientes
+                            
+                            int cargaQueSube = 0;
+                            // Buscar pedidos desde la ciudad actual hacia cualquier ciudad restante en el camino
+                            for (int j = i + 1; j < camino.length; j++) {
+                                String destinoFuturo = camino[j].trim();
+                                lineales.dinamicas.Lista pedidosFuturos = ciudadLogica.getSolicitudesHacia(destinoFuturo);
+                                for (int k = 1; k <= pedidosFuturos.longitud(); k++) {
+                                    cargaQueSube += ((Solicitud) pedidosFuturos.recuperar(k)).getM3();
+                                }
+                            }
+                            
+                            // Agrega la nueva carga a la que ya traía el camión
+                            int cargaVivaEnTramo = 0;
+                            for (int origen = 0; origen <= i; origen++) {
+                                Ciudad ciudadOrigen = (Ciudad) ciudades.obtenerDato(camino[origen].trim());
+                                for (int destino = i + 1; destino < camino.length; destino++) {
+                                    String destinoCP = camino[destino].trim();
+                                    lineales.dinamicas.Lista pedidos = ciudadOrigen.getSolicitudesHacia(destinoCP);
+                                    for(int p = 1; p <= pedidos.longitud(); p++) {
+                                        cargaVivaEnTramo += ((Solicitud) pedidos.recuperar(p)).getM3();
+                                    }
+                                }
+                            }
+                            
+                            if (cargaVivaEnTramo == 0) {
+                                System.out.println("NO ES PERFECTO: En el tramo " + cActual + " -> " + camino[i+1].trim() + " el camión viaja vacío.");
+                                esPerfecto = false;
+                                break;
+                            }
+                            if (cargaVivaEnTramo > capacidad) {
+                                System.out.println("NO ES PERFECTO: En el tramo " + cActual + " -> " + camino[i+1].trim() + " la carga (" + cargaVivaEnTramo + " m3) supera la capacidad del camión (" + capacidad + " m3).");
+                                esPerfecto = false;
+                                break;
+                            }
+                        }
+                        
+                        if (esPerfecto) {
+                            System.out.println("¡ES UN CAMINO PERFECTO! La ruta es viable físicamente, nunca viaja vacía y no rebasa la capacidad.");
+                        }
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR: Formato de capacidad inválido.");
+                    }
+                    break;
+
+                case "R":
+                    System.out.println("Regresando...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
                     break;
             }
         } while (!subOpcion.equals("R"));
