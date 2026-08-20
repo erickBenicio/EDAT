@@ -823,6 +823,7 @@ public class MudanzasCompartidas {
                         } else {
                             System.out.println("Se encontraron " + todosLosCaminos.longitud() + " caminos posibles:");
                             for (int i = 1; i <= todosLosCaminos.longitud(); i++) {
+                                //Revisar: clonar lista e ir romiendola para mejorar eficiencia
                                 System.out.print("Opción " + i + ": ");
                                 toStringCamino((lineales.dinamicas.Lista) todosLosCaminos.recuperar(i));
                             }

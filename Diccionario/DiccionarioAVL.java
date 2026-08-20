@@ -226,7 +226,7 @@ public class DiccionarioAVL {
         cantidad de hijos del nodo*/
         if(nodo.getIzquierdo()!=null && nodo.getDerecho()!=null){
             /*LLamo al caso 3*/
-            caso3(nodo.getDerecho(),padre,nodo);
+            caso3(nodo);//Solo le paso el nodo a eliminar
         }else if(nodo.getIzquierdo()!=null || nodo.getDerecho()!=null){
             /*Llamo al caso 2*/
             caso2(nodo,padre);
@@ -293,34 +293,26 @@ public class DiccionarioAVL {
         }
     }
 
-
-    private void caso3(NodoAVLDicc candi, NodoAVLDicc padre, NodoAVLDicc elim) {
-        /*Busco el candidato del nodo a elimnar*/
-        /*Candidato: hijo menor del subarbol derecho*/
-        if (candi.getIzquierdo() != null) {
-            /*Recorre hasta el ultimo hijo izquierdo*/
-            caso3(candi.getIzquierdo(), padre, elim);
-        } else {
-            eliminarAux(candi.getClave(), elim, padre);
-            /*Inserta el ultimo hijo izquierdo*/
-            candi.setIzquierdo(elim.getIzquierdo());
-            candi.setDerecho(elim.getDerecho());
-            /*Actualizo la altura del candidato*/
-            candi.recalcularAltura();
-            if (padre != null) {
-                /*Verifica que nodo elim no sea la raiz*/
-                if (padre.getClave().compareTo(elim.getClave()) > 0) {
-                    padre.setIzquierdo(candi);
-                } else {
-                    padre.setDerecho(candi);
-                }
-                /*La altura del padre se actualiza y balancea a la vuelta de la recursicion*/
-            } else /*Si es la raiz, entonces setea la raiz*/ {
-                this.raiz = candi;
-            }
-        }
-    }
     
+    private void caso3(NodoAVLDicc nodoEliminar){
+        //Encontrar el candidato(el menor del subarbol derecho)
+        NodoAVLDicc candi= nodoEliminar.getDerecho();
+        while(candi.getIzquierdo()!=null){
+            candi= candi.getIzquierdo();
+        }
+        //Guardo tmp los datos del candidato
+        Comparable claveCandi= candi.getClave();
+        Object datoCandi= candi.getDato();
+        //Elimino fisicamente el nodo candidato de su pos original
+        //Mando a eliminar la clave del candidato buscando solo en el subarbol der
+        //y el AVL balancea esa rama a la vuelta
+        eliminarAux(claveCandi, nodoEliminar.getDerecho(), nodoEliminar);
+        //Piso los datos del original (el que se queria eliminar)
+        //con los datos del candidato
+        nodoEliminar.setClave(claveCandi);
+        nodoEliminar.setDato(datoCandi);
+    }
+
     public Object obtenerDato(Comparable clave) {
         Object dato = obtenerDatoAux(clave, this.raiz);
         return dato;

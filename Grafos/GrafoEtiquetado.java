@@ -51,13 +51,13 @@ public class GrafoEtiquetado{
             //Si lo encuentra, le desconecta los arcos
             NodoAdy auxArco = aux.getPrimerAdy();
             //Verifica que tenga arcos
-            while(!termino) {
+            while(!termino) { //aux
                 //Primero desconecta al nodo destino al de origen asi no pierde la referencia
                 boolean desconecto = desconectarArco(auxArco.getVertice(), aux);
                 //Si lo pudo desconectar del destino al origen, entonces lo desconecta del origen al destino
-                if (desconecto) {
-                    desconectarArco(aux, auxArco.getVertice());
-                }
+                /*if (desconecto) {
+                    desconectarArco(aux, auxArco.getVertice()); //Doble llamada innecesaria
+                }*/
                 /*Verifico que no tenga otros arcos*/
                 if(auxArco.getSigAdyacente()!=null)
                     /*Si tiene otros arcos, los saca*/
@@ -329,12 +329,12 @@ public class GrafoEtiquetado{
         if (n != null) {
             if (n.getElem().equals(dest)) {
                 //si vertice n es el destino: HAY CAMINO!
-                vis.insertar(n.getElem(), vis.longitud() + 1);
+                vis.insertar(n.getElem(), vis.longitud() + 1);//afuera de la alt
                 //Verifica que el camino sea mas corto o sino se queda con el primero que encontro
                 masCorto = vis.clone();
             } else {
                 /*Si no es el destino verifica  si hay camino entre n y destino*/
-                vis.insertar(n.getElem(), vis.longitud() + 1);
+                vis.insertar(n.getElem(), vis.longitud() + 1);//afuera de la alt
                 NodoAdy ady = n.getPrimerAdy();
                 while (ady != null) {
                     if (vis.localizar(ady.getVertice().getElem()) < 0 && 
@@ -390,7 +390,7 @@ public class GrafoEtiquetado{
     public Lista caminoMasCortoEtiquetas(Object origen, Object destino) {
         Lista masCorto = new Lista();
         /*Verifica si ambos vertices existen*/
-        NodoVert auxO = encontrarDosVertices(origen,destino);
+        NodoVert auxO = encontrarDosVertices(origen,destino);//verifVertices
         if (auxO != null) {
             /*Si ambos vertices existen busca el camino mas entre ambos*/
             Lista vis = new Lista();
@@ -410,12 +410,13 @@ public class GrafoEtiquetado{
         /*ACLARACION: La lista masCorto guarda el camino por etiquetas mas corto en la posicion 1 y la suma
             de las etiquetas lo guarda en la posicion 2*/
          //Recupera la suma de etiquetas de la lista 
+         //Revisar el uso de arreglo
          double i = (double) masCorto.recuperar(2);
         if (n != null) {
             //Verifica que el origen es el destino
             if (n.getElem().equals(dest)) {
                 //si vertice n es el destino: HAY CAMINO!
-                vis.insertar(n.getElem(), vis.longitud() + 1);
+                vis.insertar(n.getElem(), vis.longitud() + 1);//revisar fuera de la alt
                 //Elimina la lista anterior e inserta la nueva lista
                 masCorto.eliminar(1);
                 masCorto.insertar(vis.clone(), 1);

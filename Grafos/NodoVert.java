@@ -1,4 +1,8 @@
 package EDAT.Grafos;
+/**
+ *
+ * @author erick
+ */
 
 public class NodoVert{
 
